@@ -1,0 +1,40 @@
+language: node_js
+node_js:
+- '8'
+env:
+  global:
+  - GH_USER_EMAIL="travis@example.org"
+  - GH_USER_NAME="cozy-bot"
+  - DEPLOY_REPOSITORY="git@github.com:konnectors/helloasso.git"
+  - secure: LZ/aE8iLSWYuQNK510MTyTiTfUs18E0Iz1DLrnwbCZ5Kv+ubwSGHFz6/YZHcEOEyNFl7LqaNjNrNVnlTSfqlfvwVBuQZEM6sgGLBC7CwXaLxUs3ZUqEp8iGB656fbLHQjOIJTZyBn/ll1NLXBOjlps/xprsOfY00xxPSby831EcueWD3fXM9mE0QsDX/sEw6J+9R5T193qP9iL/z3xjCPJVQydGHTUnbLjbjeYL19oOaN6tWjYrIxnH+VhIIfasbPnJ515GfpjH/V12lACy5fJDAsNIVwwIuSP9ExWZPYeHrlC8opxvU1TaW9qIsHU4bGLkL+mBVaYOSCCH17y4sQPlddfphW0VSeOlxsmHYYSVEWzZH0W8kjMKX5l9SxziZuLjTpertP+tLApnUTXrfYnGJbk9azIP0hJnrc4LDf+eLCzYy3eQlQeGILKfYvBXL1nTe0YiAshwHlsyfKvm004CnavetNJfb0g1cVFXtwg3xVA8oSmuebOK15tCXs9f/mt0pa5qQLHR1803OKClaFGMhY1/TnIQAV+gOtKiFJE5I1UfAjOqV+r6JPd9dj6cF2qWeomwqrSX4tZEpFsnt6RAmh7/tR6YpICquvXLSfS1/GlsvhUT2cjZeo/dE+Jjycnea4UXN9T/BQHzXQ0VdZ1kDW4O1ZZ1nfhWlimDt6CU=
+cache:
+  yarn: true
+  directories:
+  - node_modules
+branches:
+  except:
+  - build
+  - latest
+script:
+- yarn lint
+- yarn build
+deploy:
+- provider: script
+  skip-cleanup: true
+  script: DEPLOY_BRANCH=build yarn deploy && yarn cozyPublish
+  on:
+    branch: master
+- provider: script
+  skip-cleanup: true
+  script: DEPLOY_BRANCH=build yarn deploy && yarn cozyPublish
+  on:
+    tags: true
+before_install:
+- openssl aes-256-cbc -K $encrypted_911a740b544b_key -iv $encrypted_911a740b544b_iv
+  -in github_deploy_key.enc -out /tmp/github_deploy_key -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/github_deploy_key
+- ssh-add /tmp/github_deploy_key
+after_deploy:
+- rm /tmp/github_deploy_key
+- ssh-add -D
