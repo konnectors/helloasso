@@ -6,7 +6,9 @@ const {
   errors
 } = require('cozy-konnector-libs')
 
-process.env.SENTRY_DSN = process.env.SENTRY_DSN ||  pro 'https://6806774c8e994c328e511a7925a2dfda:2663acb6d8b1458db67dda05eb9bd401@sentry.cozycloud.cc/53'
+process.env.SENTRY_DSN =
+  process.env.SENTRY_DSN ||
+  'https://6806774c8e994c328e511a7925a2dfda:2663acb6d8b1458db67dda05eb9bd401@sentry.cozycloud.cc/53'
 
 const request = requestFactory({
   // the debug mode shows all the details about http request and responses. Very usefull for
