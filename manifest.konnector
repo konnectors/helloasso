@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "Helloasso",
   "type": "konnector",
   "language": "node",
@@ -43,8 +43,8 @@
     }
   },
   "developer": {
-    "name": "Cozy Cloud",
-    "url": "https://cozy.io"
+    "name": "Cédrice Patchane",
+    "url": "http://cedricpatchane.com/"
   },
   "langs": ["fr", "en"],
   "locales": {
