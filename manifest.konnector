@@ -85,5 +85,6 @@
       }
     }
   },
+  "banksTransactionRegExp": "\\bhelloasso\\b",
   "manifest_version": "2"
 }
