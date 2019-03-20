@@ -110,32 +110,34 @@ async function parseDocuments($) {
   const data = await jsonRequest(
     `https://www.helloasso.com/admin/handler/reports.ashx?type=Details&id_${clType}=${clId}`
   )
-  return data.rows.filter(d => d.c[7].v === 'Validé').map(data => {
-    const doc = data.c
-    // console.log(doc)
-    const dateElements = doc[5].v.match(
-      /^Date\(([0-9]*), ([0-9]*), ([0-9]*), ([0-9]*), ([0-9]*), ([0-9]*).*/
-    )
-    return {
-      association: doc[1].v,
-      campaign: doc[2].v,
-      payment_type: doc[3].v,
-      description: doc[4].v,
-      amount: doc[6].v,
-      date: getDate(dateElements),
-      currency: '€',
-      vendor: 'helloasso',
-      fileurl: doc[9].v.match(/href="([^\s]*)"/)[1],
-      filename: getFileName(doc, dateElements),
-      metadata: {
-        // it can be interesting that we add the date of import. This is not mandatory but may be
-        // usefull for debugging or data migration
-        importDate: new Date(),
-        // document version, usefull for migration after change of document structure
-        version: 1
+  return data.rows
+    .filter(d => d.c[7].v === 'Validé')
+    .map(data => {
+      const doc = data.c
+      // console.log(doc)
+      const dateElements = doc[5].v.match(
+        /^Date\(([0-9]*), ([0-9]*), ([0-9]*), ([0-9]*), ([0-9]*), ([0-9]*).*/
+      )
+      return {
+        association: doc[1].v,
+        campaign: doc[2].v,
+        payment_type: doc[3].v,
+        description: doc[4].v,
+        amount: doc[6].v,
+        date: getDate(dateElements),
+        currency: '€',
+        vendor: 'helloasso',
+        fileurl: doc[9].v.match(/href="([^\s]*)"/)[1],
+        filename: getFileName(doc, dateElements),
+        metadata: {
+          // it can be interesting that we add the date of import. This is not mandatory but may be
+          // usefull for debugging or data migration
+          importDate: new Date(),
+          // document version, usefull for migration after change of document structure
+          version: 1
+        }
       }
-    }
-  })
+    })
 }
 
 // string from helloasso to date
