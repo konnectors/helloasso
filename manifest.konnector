@@ -5,7 +5,7 @@
   "language": "node",
   "icon": "icon.png",
   "slug": "helloasso",
-  "source": "git://github.com/konnectors/helloasso.git",
+  "source": "git@github.com:konnectors/helloasso.git",
   "editor": "Cozy",
   "vendor_link": "https://www.helloasso.com",
   "categories": [
